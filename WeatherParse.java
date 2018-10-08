@@ -25,16 +25,39 @@ public class WeatherParse {
         }
         
         // TODO parser le fichier
+	JSONParser parser = new JSONParser();
+	Object jsonParsed = null;
+	try {
+    		jsonParsed = parser.parse(jsonFile);
+	} catch (ParseException | IOException e) {
+    	   e.printStackTrace();
+	}
 
         // TODO récupérer la racine du document
-
-        // TODO afficher la valeur de l'attribut "name" de la racine
-
-        // TODO afficher les valeurs des attributs "lat" et "lon" de l'élément "coord" contenu dans la racine
-
-        // TODO parcourir tous les éléments de "weather" et afficher le contenu de "main"
-
-        /*
+	
+	JSONObject root = (JSONObject) jsonParsed;
+        
+	// TODO afficher la valeur de l'attribut "name" de la racine
+	
+	String name = (String) root.get("name");
+	System.out.println(name);
+ 	
+        // TODO afficher les valeurs des attributs "lat" et "lon" de l'élément 		"coord" contenu dans la racine
+  	JSONObject coord = (JSONObject) root.get("coord");
+        String lat = (String) String.valueOf(coord.get("lat"));
+        String lon = (String) String.valueOf(coord.get("lon"));
+        System.out.println(lat);
+        System.out.println(lon);
+        
+        // TODO parcourir tous les éléments de "weather" et afficher le contenu de 		"main"
+        JSONArray weathers = (JSONArray) root.get("weather");
+        for (int i=0; i < weathers.size(); i++) {
+            JSONObject weather = (JSONObject) weathers.get(i);
+            String main = (String) weather.get("main");
+            System.out.println(main);
+	}
+       
+	/*
             Résultat attendu :
             * City name: London
             * City latitude: 51.51
